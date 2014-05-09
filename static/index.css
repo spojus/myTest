@@ -1,0 +1,144 @@
+/*
+#mainBar {
+	z-index: 10;
+}
+*/
+body,ul,ol,li,div{margin:0;padding:0;border:none;}
+ul,ol,li{list-style:none;}
+
+body{
+	overflow: hidden;
+	margin: 0;
+	padding: 0;
+	height: 100%;
+	width: 100%;
+}
+.hide{
+	display:none;
+}
+#editor { 
+	position: absolute;
+	top: 0;
+	right: 0;
+	bottom: 0;
+	left: 1px;
+}
+
+#mainBar,#btnBoxSubmit{
+	position:absolute;
+	left:0;
+}
+#mainBar,#btnBoxSubmit,#btnBoxCommon,#btnBoxIcon,.button{
+	width:64px;
+}
+#mainBar:hover {
+	z-index: 10;
+}
+#mainBar {
+	background-color:#E7E7E7;
+	height:100%;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
+}
+
+.button,.smallIcon,.menu{
+	cursor: pointer;
+}
+
+.button{
+	height:24px;
+	line-height:24px;
+	text-align:center;
+	font-size:12px;
+	font-family:Verdana,Arial;
+	background-color:#26C9FF;
+	margin:3px 0;
+
+}
+
+.button:hover,#btnBoxCommon .selected{
+	background-color:#00A9F2;
+}
+
+#btnBoxCommon .menu{
+    position: absolute;
+    background-color: #00A9F2;
+    left: 64px;
+    margin-top: -27px;
+	border-left:1px solid #ccc;
+}
+#btnBoxCommon .menu .menu{
+	margin-top: -24px;
+}
+#btnBoxCommon .menu li{
+	padding:3px 8px;
+}
+#btnBoxCommon .menu li:hover{
+	background-color: #0095F2;
+}
+.smallIcon{
+	float:left;
+	padding: 2px 3px;
+}
+.smallIcon:nth-child(odd){
+	padding-left:7px;
+}
+.smallIcon:nth-child(even){
+	padding-right:7px;
+}
+.smallIcon div{
+	font-size: 19px;
+	width:20px;
+	height:20px;
+	line-height:20px;
+	margin:0;
+	color:#5A5A5A;
+	border:1px solid #B0AFAF;
+	background-color:#DDDDDD;
+	text-align:center;
+}
+
+.smallIcon:hover div{
+	color:#000000;
+	border:1px solid #70C0E7;
+}
+#btnBoxIcon .selected div{
+	color:#000000;
+	border:1px solid #2692DA;
+	background-color:#B5DFF2;
+}
+#btnBoxIcon .smallIcon:hover div{
+	background-color:#F5F3FB;
+}
+
+#btnBoxIcon .selected:hover div{
+	background-color:#DDF2F9;
+}
+#mainBar #btnBoxIcon .mouseDown div{
+	background-color:#93D1EC;
+}
+
+#btnBoxCommon{
+	top:0;
+	bottom:39px;
+	overflow: hidden;
+}
+
+#btnBoxSubmit{
+	bottom:0;
+}
+
+#btnSubmit{
+	font-size:14px;
+	font-weight:bold;
+	height:36px;
+	line-height:36px;
+	color:#fff;
+	background-color:#EC6100;
+	margin-bottom:0;
+}
+#btnSubmit:hover{
+	background-color:#EC2F00;
+}
