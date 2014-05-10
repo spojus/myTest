@@ -25,17 +25,28 @@ class Code {
 	
 	//获取最后文件路径
 	private function getLastCodePath() {
-		return ROOT_PATH.'code/temp/temp.php';
+		$lastPath = ROOT_PATH.'code/temp/temp.php';
+		if(!is_file($lastPath)) {
+			mk_dir($lastPath, 777);
+		}
+		return $lastPath;
+	}
+	
+	private function getTempFilePath() {
+		$tmpPath = ROOT_PATH.'code/temp/';
+		if(!is_dir($tmpPath)) {
+			mk_dir($tmpPath, 777);
+		}
+		$fileName = 'temp';
+		$extName = 'php';
+		$dot = strlen($extName) ? '.' : '';
+		$filePath = $tmpPath.$fileName.$dot.$extName;
+		return $filePath;
 	}
 	
 	//保存临时文件
 	private function saveAsTemp($content) {
-		$tmpPath = ROOT_PATH.'code/temp/';
-		$fileName = 'temp';
-		$extName = 'php';
-		
-		$dot = strlen($extName) ? '.' : '';
-		$filePath = $tmpPath.$fileName.$dot.$extName;
+		$filePath = $this->getTempFilePath();
 		$length = file_put_contents($filePath, $content);
 		if($length !== strlen($content)) {
 			showMsg('write failed!');
