@@ -85,12 +85,12 @@
 				{
 					text: 'JS', 
 					title: '',
-					handler: function(){alert('js')},
+					handler: function(el){alert('js')},
 					menu: []
 				},{
 					text: 'JS3', 
 					title: '',
-					handler: null,
+					handler: function(el){alert('js3')},
 					menu: []
 				}
 			]
@@ -102,7 +102,7 @@
 				{
 					text: 'JS2', 
 					title: '',
-					handler: null,
+					handler: function(el){alert('js2')},
 					menu: []
 				}
 			]		
@@ -111,8 +111,38 @@
 	/*
 		<div class="button">PHP</div>
 		<ul class="menu hide">
-			<li>test12311111111223123</li>
+			<li title="title">test12311111111223123</li>
 	*/
 	var initMenu = function(){
+		var menuBox = $('#btnBoxCommon');
+		menuBox.html(buildMenu(menuData, 0));
 		
+	}
+	
+	var buildMenu = function(data, level){
+		var html = '';
+		var len = data ? data.length : 0;
+		if(!len){
+			return '';
+		}
+		var btnClass = '';
+		if(level === 0){
+			btnClass = ' class="button"';
+		}else{
+			html += '<ul class="menu">'
+		}
+		var i,titleAttr,title;
+		for(i = 0; i < len; i++){
+			title = data[i].title;
+			titleAttr = '';
+			if(typeof(title) !== "undefined" && title.length){
+				titleAttr = ' title="' + title + '"';
+			}
+			html += '<li' + btnClass + titleAttr + '>' + data[i].text + '</li>';
+			html += buildMenu(data[i].menu, level + 1);
+		}
+		if(level !== 0){
+			html += '</ul>';
+		}
+		return html;
 	}
