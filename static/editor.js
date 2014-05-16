@@ -1,46 +1,60 @@
-	//init
-    var editor = ace.edit("editor");
-    editor.setTheme("ace/theme/tomorrow");
-    editor.getSession().setMode("ace/mode/php");
-	editor.getSession().setUseSoftTabs(false);
-	editor.setValue("<"+"?php\n\n\n\n\n\n\n"); 
-	//pure text out put: Header("Content-type: text/plain");
-	editor.gotoLine(2);
-	editor.focus();
-	
-	//bind event
-	editor.commands.addCommand({
-		name: 'submitCode',
-		bindKey: {win: 'Ctrl-S',  mac: 'Ctrl-S'},
-		exec: function(editor) {
-			submitCode();
-		},
-		readOnly: true // false if this command should not apply in readOnly mode
-	});
-	
-	$('#btnSubmit').on('click', function(){
-		submitCode();
-	});
-	
-	$('#readLastCode').on('click', function(){
-		readLastCode();
-	});
-	
-	$('.button').on('click', function(){
-		$(this).addClass('selected');
-	});
-	
-	$('.switch').on('click',function(e){
-		$(this).toggleClass('selected');
-	});
+	//define
+	var editor = ace.edit("editor");
 
-	$('.smallIcon').on('mousedown',function(e){
-		$(this).addClass('mouseDown');
-	})
-	
-	$('.smallIcon').on('mouseup mouseleave',function(e){
-		$(this).removeClass('mouseDown');
-	})
+	//data
+	var menuData = [
+		{
+			text: 'File',
+			//title: 'show title',
+			//handler: null,
+			menu:[
+				{
+					text: 'JS1111111',
+					title: '',
+					handler: function(el){alert('js')},
+					menu: [
+					{
+						text: 'JS33',
+						title: '',
+						handler: function(el){alert('js3')},
+						menu: []
+					},{
+						text: 'JS44',
+						title: '',
+						handler: function(el){alert('js3')},
+						menu: []
+					}
+					]
+				},{
+					text: 'JS3',
+					title: '',
+					handler: function(el){alert('js3')},
+					menu: []
+				}
+			]
+		},{
+			text: 'Language',
+			title: 'Select language',
+			menu: [
+				{
+					text: 'PHP',
+					title: '',
+					handler: function(el){alert('js2')},
+					menu: []
+				},{
+					text: 'JS2333',
+					title: '',
+					handler: function(el){alert('js2')},
+					menu: []
+				},{
+					text: 'JS24544',
+					title: '',
+					handler: function(el){alert('js2')},
+					menu: []
+				}
+			]
+		}
+	];
 
 	
 	//function
@@ -75,44 +89,6 @@
 		});
 	}
 
-	
-	var menuData = [
-		{
-			text: 'PHP', 
-			title: 'Select mode', 
-			handler: null,
-			menu:[
-				{
-					text: 'JS', 
-					title: '',
-					handler: function(el){alert('js')},
-					menu: []
-				},{
-					text: 'JS3', 
-					title: '',
-					handler: function(el){alert('js3')},
-					menu: []
-				}
-			]
-		},{
-			text: 'PHP2', 
-			title: 'Select mode2', 
-			handler: null,
-			menu: [
-				{
-					text: 'JS2', 
-					title: '',
-					handler: function(el){alert('js2')},
-					menu: []
-				}
-			]		
-		}
-	];
-	/*
-		<div class="button">PHP</div>
-		<ul class="menu hide">
-			<li title="title">test12311111111223123</li>
-	*/
 	var initMenu = function(){
 		var menuBox = $('#btnBoxCommon');
 		menuBox.html(buildMenu(menuData, 0));
@@ -146,3 +122,52 @@
 		}
 		return html;
 	}
+	
+	
+	//init
+    editor.setTheme("ace/theme/tomorrow");
+    editor.getSession().setMode("ace/mode/php");
+	editor.getSession().setUseSoftTabs(false);
+	editor.setValue("<"+"?php\n\n\n\n\n\n\n"); 
+	//pure text out put: Header("Content-type: text/plain");
+	editor.gotoLine(2);
+	editor.focus();
+	
+	initMenu();
+	
+	
+	//bind
+	editor.commands.addCommand({
+		name: 'submitCode',
+		bindKey: {win: 'Ctrl-S',  mac: 'Ctrl-S'},
+		exec: function(editor) {
+			submitCode();
+		},
+		readOnly: true
+	});
+	
+	$('#btnSubmit').on('click', function(){
+		submitCode();
+	});
+	
+	$('#readLastCode').on('click', function(){
+		readLastCode();
+	});
+	
+	$('.button').on('click', function(){
+		$(this).addClass('selected');
+	});
+	
+	$('.switch').on('click',function(e){
+		$(this).toggleClass('selected');
+	});
+
+	$('.smallIcon').on('mousedown',function(e){
+		$(this).addClass('mouseDown');
+	});
+	
+	$('.smallIcon').on('mouseup mouseleave',function(e){
+		$(this).removeClass('mouseDown');
+	});
+
+	
