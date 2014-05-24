@@ -16,7 +16,7 @@ body{
 .hide{
 	display:none;
 }
-#editor { 
+#editor {
 	position: absolute;
 	top: 0;
 	right: 0;
@@ -70,10 +70,13 @@ body{
 	border-left:1px solid #ccc;
 }
 #btnBoxCommon .menu .menu{
-	margin-top: -24px;
+	margin-top: -20px;
 }
 #btnBoxCommon .menu li{
-	padding:3px 8px;
+	padding:3px 12px 3px 18px;
+	font-size:12px;
+	font-family:Verdana,Arial;
+	white-space: nowrap;
 }
 #btnBoxCommon .menu li:hover{
 	background-color: #0095F2;
