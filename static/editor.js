@@ -1,14 +1,18 @@
 	//define
 	var editor = ace.edit("editor");
 	var Mt = {
-		//Element id for myTest
+		//Element id start index
 		id: 1000,
 		//Generate unique ID for element
 		genId: function(){
 			Mt.id ++;
 			return 'Mt-'+Mt.id;
 		},
-		//Store to here waitting for elements create finished. {id: handler}
+		/*
+			Store to here waitting for elements create finished. 
+			Bind Events to element id.
+			Structure: {id: handler}
+		*/
 		bindList: {},
 		processBindList: function(){
 			for(var x in Mt.bindList){
@@ -16,7 +20,7 @@
 					Mt.bind('#'+x, Mt.bindList[x]);
 				}
 			}
-			//Empty bindList
+			//Empty list
 			Mt.bindList = {};
 		},
 		//Bind events for each item
@@ -31,19 +35,28 @@
 				}
 			}
 		},
-		//[{key: bindKey,func: function}]
-		bindKeyList: [],
+		/*
+			Bind shortcut key to element.
+			Structure: [{name: name, key: bindKey, func: function}]
+		*/
+		bindKeyList: [
+			{name: 'submitCode', key: {win: 'Ctrl-S'}, func: function(){
+				submitCode();
+			}}
+		],
 		processBindKeyList: function(){
+			console.log(Mt.bindKeyList);
 			var length = Mt.bindKeyList.length;
 			for(var i=0; i < length; i ++){
-				Mt.bindKey(Mt.bindKeyList[i].key, Mt.bindKeyList[i].func);
+				Mt.bindKey(Mt.bindKeyList[i].name, Mt.bindKeyList[i].key, Mt.bindKeyList[i].func);
 			}
-			//Empty bindKeyList
+			//Empty list
 			Mt.bindKeyList = [];
 		},
-		bindKey: function(key, handler){
+		bindKey: function(name, key, handler){
 			console.log('bindKey');
 			editor.commands.addCommand({
+				name: name,
 				bindKey: key,
 				exec: function(el){
 					console.log(el);
@@ -152,10 +165,10 @@
 	//Process menu common events
 	var commonMenuHandler = function(el){
 		console.log(el);
-		showChildMenu($(el.target));
+		showChildrenMenu($(el.target));
 	}
 
-	var showChildMenu = function(currentEl){
+	var showChildrenMenu = function(currentEl){
 		//var currentEl = $('#'+id);
 		var el = currentEl.next();
 		if(el.length && el[0].tagName === 'UL'){
@@ -171,7 +184,7 @@
 		}
 	}
 
-	var bindMenuId = function(data, isUl){
+	var menuBindId = function(data, isUl){
 		var id = Mt.genId();
 		var idStr = ' id="' + id + '"';
 		if(isUl){
@@ -183,7 +196,7 @@
 		Mt.bindList[id] = {};
 		if(isDefined(handler)){
 			//bind shortcut key
-			menuBindKey(data.bindKey, handler.click);
+			menuBindKey(data.text, data.bindKey, handler.click);
 			//bind common func
 			if(isDefined(handler[eventStr])){
 				handler[eventStr2] = commonMenuHandler;
@@ -198,11 +211,11 @@
 	}
 
 	//add to bindKeyList
-	var menuBindKey = function(bindKey, callFunc){
+	var menuBindKey = function(name, bindKey, callFunc){
 		if(!isDefined(bindKey) || !isDefined(callFunc)){
 			return '';
 		}
-		var pair = {key: bindKey, func: callFunc};
+		var pair = {name: name, key: bindKey, func: callFunc};
 		Mt.bindKeyList.push(pair);
 		return bindKey;
 	}
@@ -219,7 +232,7 @@
 		if(level === 0){
 			btnClass = ' class="button"';
 		}else{
-			idData = bindMenuId(data, true);
+			idData = menuBindId(data, true);
 			//Add <UL> before create <li> except button
 			html += '<ul' + idData + '" class="menu hide">';
 		}
@@ -230,7 +243,7 @@
 			if(isDefined(title) && title.length){
 				titleAttr = ' title="' + title + '"';
 			}
-			idData = bindMenuId(data[i], false);
+			idData = menuBindId(data[i], false);
 			html += '<li' + idData + btnClass + titleAttr + '>' + data[i].text + '</li>';
 			html += buildMenu(data[i].menu, level + 1);
 		}
@@ -277,14 +290,6 @@
 
 
 	//bind
-	editor.commands.addCommand({
-		//name: 'submitCode',
-		bindKey: {win: 'Ctrl-S',  mac: 'Ctrl-S'},
-		exec: function(editor) {
-			submitCode();
-		},
-		readOnly: true
-	});
 
 	Mt.processBindKeyList();
 
@@ -314,4 +319,6 @@
 		$(this).removeClass('mouseDown');
 	});
 
-
+	$('#mainBar').on('mouseleave', function(){
+		$('#btnBoxCommon ul').addClass('hide');
+	});
